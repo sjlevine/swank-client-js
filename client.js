@@ -1,25 +1,29 @@
-php = require('phpjs');
-net = require('net');
+var php = require('phpjs');
+var net = require('net');
+var paredit = require('paredit.js');
 
 /* Swank client class! */
-function SwankClient(host, port) {
+
+function Client(host, port) {
   this.host = host;
   this.port = port;
   this.socket = null;
 
+  // Useful protocol information
+  this.req_counter = 1;
+  this.req_table = {};
+
   this.on_handlers = {
     connect: function() {},
-    data: function(data) {},
     disconnect: function() {}
   }
 
   // Bootstrap the reading state
   this.setup_read(6, this.header_complete_callback);
-
 }
 
 
-SwankClient.prototype.send_message = function(msg) {
+Client.prototype.send_message = function(msg) {
   var msg_utf8 = php.utf8_encode(msg);
   // Construct the length, which is a 6-byte
   // hexadecimal length string
@@ -31,7 +35,8 @@ SwankClient.prototype.send_message = function(msg) {
   this.socket.write(msg_overall);
 }
 
-SwankClient.prototype.connect = function() {
+
+Client.prototype.connect = function() {
   // Create a socket
   var sc = this; // Because the 'this' operator changes scope
   this.socket = net.connect({
@@ -52,69 +57,83 @@ SwankClient.prototype.connect = function() {
 
 /* Some data just came in over the wire. Make sure to read it in
 message chunks with the length */
-SwankClient.prototype.socket_data_handler = function(data) {
+Client.prototype.socket_data_handler = function(data) {
   var d = data.toString();
 
   while (d.length > 0) {
     if (d.length >= this.len_remaining) {
       // We can finish this buffer! Read the remaining
       // and reduce from d.
+      // console.log("Consuming " + this.len_remaining + " of " + d.length);
       this.buffer += d.slice(0, this.len_remaining);
       d = d.slice(this.len_remaining);
-      this.buffer_complete_callback(this.buffer);
+      this.len_remaining = 0;
     } else {
       // We haven't read enough to complete the desired
       // read length yet. Consume it and update.
+      // console.log("Consuming all " + d.length);
       this.buffer += d;
+      this.len_remaining = this.len_remaining - d.length;
       d = "";
+    }
+
+    // If we've finished reading the entire buffer, call the callback!
+    // console.log("Len Remaining: " + this.len_remaining);
+    if (this.len_remaining == 0) {
+        // console.log("   Buffer complete!");
+        // console.log("   d left: " + d.length);
+        this.buffer_complete_callback(this.buffer);
     }
   }
 }
 
-SwankClient.prototype.setup_read = function(length, fn) {
+Client.prototype.setup_read = function(length, fn) {
   this.buffer = "";
   this.len_remaining = length;
   this.buffer_complete_callback = fn;
 }
 
-SwankClient.prototype.header_complete_callback = function(data) {
+Client.prototype.header_complete_callback = function(data) {
   // Parse the length
   var len = parseInt(data, 16);
   // Set up to read data
   this.setup_read(len, this.data_complete_callback);
 }
 
-SwankClient.prototype.data_complete_callback = function(data) {
+Client.prototype.data_complete_callback = function(data) {
   // Call the handler
-  this.on_handlers.data(php.utf8_decode(data));
+  this.on_swank_message(php.utf8_decode(data))
+
   // Set up again to read the header
   this.setup_read(6, this.header_complete_callback); // It's 6 bytes long
 }
 
-
-SwankClient.prototype.on = function(event, fn) {
+Client.prototype.on = function(event, fn) {
   this.on_handlers[event] = fn;
 }
 
 
+Client.prototype.rex = function(cmd, package, thread, callback) {
+    // Run an EMACS-REX command, and call the callback
+    // when we have a return value, with the parsed paredit s-expression
+    // Add an entry into our table!
+    var id = this.req_counter;
+    this.req_counter = this.req_counter + 1;
+    this.req_table[id] = {
+        id: id,
+        cmd: cmd,
+        package: package,
+        callback: callback
+    };
+
+    // Dispatch a command to swank
+    var rex_cmd = "(:EMACS-REX " + cmd + " \"" + package + "\" " + thread + " " + id + ")";
+    this.send_message(rex_cmd);
+}
+
+Client.prototype.on_swank_message = function(msg) {
+    console.log("Got msg of length " + msg.length);
+}
 
 
-//
-// var net = require('net');
-// var client = net.connect({port: 8124},
-//     function() { //'connect' listener
-//   console.log('connected to server!');
-//   client.write('world!\r\n');
-// });
-// client.on('data', function(data) {
-//   console.log(data.toString());
-//   client.end();
-// });
-// client.on('end', function() {
-//   console.log('disconnected from server');
-// });
-
-
-
-// node.js module exports
-module.exports.SwankClient = SwankClient;
+module.exports.Client = Client;
