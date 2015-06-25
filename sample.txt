@@ -1,0 +1,440 @@
+Read: (:EMACS-REX (SWANK:CONNECTION-INFO) "COMMON-LISP-USER" T 1)
+Write: (:RETURN
+ (:OK
+  (:PID 10066 :STYLE :SPAWN :ENCODING
+   (:CODING-SYSTEMS ("utf-8-unix" "iso-latin-1-unix")) :LISP-IMPLEMENTATION
+   (:TYPE "SBCL" :NAME "sbcl" :VERSION "1.2.7" :PROGRAM NIL) :MACHINE
+   (:INSTANCE "macaroni" :TYPE "X86-64" :VERSION
+    "Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz")
+   :FEATURES
+   (:SWANK :SB-BSD-SOCKETS-ADDRINFO :ALIEN-CALLBACKS :ANSI-CL :ASH-RIGHT-VOPS
+    :C-STACK-IS-CONTROL-STACK :COMMON-LISP :COMPARE-AND-SWAP-VOPS
+    :COMPLEX-FLOAT-VOPS :CYCLE-COUNTER :ELF :FLOAT-EQL-VOPS :GENCGC
+    :IEEE-FLOATING-POINT :INLINE-CONSTANTS :INTERLEAVED-RAW-SLOTS :LARGEFILE
+    :LINKAGE-TABLE :LINUX :LITTLE-ENDIAN :MEMORY-BARRIER-VOPS
+    :MULTIPLY-HIGH-VOPS :OS-PROVIDES-BLKSIZE-T :OS-PROVIDES-DLADDR
+    :OS-PROVIDES-DLOPEN :OS-PROVIDES-GETPROTOBY-R :OS-PROVIDES-POLL
+    :OS-PROVIDES-PUTWC :OS-PROVIDES-SUSECONDS-T :PACKAGE-LOCAL-NICKNAMES
+    :RAW-INSTANCE-INIT-VOPS :SB-DOC :SB-EVAL :SB-FUTEX :SB-LDB
+    :SB-PACKAGE-LOCKS :SB-SIMD-PACK :SB-SOURCE-LOCATIONS :SB-TEST :SB-THREAD
+    :SB-UNICODE :SBCL :STACK-ALLOCATABLE-CLOSURES
+    :STACK-ALLOCATABLE-FIXED-OBJECTS :STACK-ALLOCATABLE-LISTS
+    :STACK-ALLOCATABLE-VECTORS :STACK-GROWS-DOWNWARD-NOT-UPWARD
+    :SYMBOL-INFO-VOPS :UNIX :UNWIND-TO-FRAME-AND-CALL-VOP :X86-64)
+   :MODULES ("SB-CLTL2" "SB-POSIX" "SB-INTROSPECT" "SB-BSD-SOCKETS") :PACKAGE
+   (:NAME "COMMON-LISP-USER" :PROMPT "CL-USER") :VERSION "2015-06-01"))
+ 1)
+Read: (:EMACS-REX
+ (SWANK:SWANK-REQUIRE
+  '(SWANK-IO-PACKAGE::SWANK-TRACE-DIALOG SWANK-IO-PACKAGE::SWANK-PACKAGE-FU
+    SWANK-IO-PACKAGE::SWANK-PRESENTATIONS SWANK-IO-PACKAGE::SWANK-FUZZY
+    SWANK-IO-PACKAGE::SWANK-FANCY-INSPECTOR SWANK-IO-PACKAGE::SWANK-C-P-C
+    SWANK-IO-PACKAGE::SWANK-ARGLISTS SWANK-IO-PACKAGE::SWANK-REPL))
+ "COMMON-LISP-USER" T 2)
+STYLE-WARNING:
+   redefining THREAD-FOR-EVALUATION (#<STRUCTURE-CLASS
+                                       MULTITHREADED-CONNECTION>
+                                     #<SB-MOP:EQL-SPECIALIZER
+                                       {1004A410E3}>) in DEFMETHOD
+Write: (:INDENTATION-UPDATE
+ (("with-new-definition-in-environment" 1 ("SB-WALKER"))
+  ("with-augmented-environment" 1 ("SB-WALKER"))
+  ("walker-environment-bind" 1 ("SB-WALKER"))
+  ("with-fixed-allocation" 1 ("SB-VM")) ("maybe-pseudo-atomic" 1 ("SB-VM"))
+  ("with-cycle-counter" 0 ("SB-VM")) ("with-fd-setsize" 1 ("SB-UNIX"))
+  ("with-new-session" 1 ("SB-THREAD")) ("barrier" 1 ("SB-THREAD"))
+  ("with-mutex" 1 ("SB-THREAD")) ("with-recursive-lock" 1 ("SB-THREAD"))
+  ("with-recursive-system-lock" 1 ("SB-THREAD"))
+  ("with-cas-lock" 1 ("SB-THREAD")) ("with-system-mutex" 1 ("SB-THREAD"))
+  ("with-spinlock" 1 ("SB-THREAD")) ("with-interruptions-lock" 1 ("SB-THREAD"))
+  ("with-deadlocks" 1 ("SB-THREAD")) ("with-session-lock" 1 ("SB-THREAD"))
+  ("%with-cas-lock" 1 ("SB-THREAD"))
+  ("without-thread-waiting-for" 1 ("SB-THREAD"))
+  ("with-recursive-spinlock" 1 ("SB-THREAD"))
+  ("with-all-threads-lock" 0 ("SB-THREAD"))
+  ("without-gcing" 0
+   ("SB-ALIEN" "SB-C" "SB-DEBUG" "SB-DI" "SB-EXT" "SB-FASL" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-REGALLOC" "SB-SYS" "SB-THREAD" "SB-UNIX" "SB-VM"))
+  ("with-pinned-objects" 1
+   ("SB-ALIEN" "SB-C" "SB-DEBUG" "SB-DI" "SB-EXT" "SB-FASL" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-REGALLOC" "SB-SYS" "SB-THREAD" "SB-UNIX" "SB-VM"))
+  ("allow-with-interrupts" 0
+   ("SB-ALIEN" "SB-C" "SB-DEBUG" "SB-DI" "SB-EXT" "SB-FASL" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-REGALLOC" "SB-SYS" "SB-THREAD" "SB-UNIX" "SB-VM"))
+  ("with-interrupt-bindings" 0
+   ("SB-ALIEN" "SB-C" "SB-DEBUG" "SB-DI" "SB-EXT" "SB-FASL" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-REGALLOC" "SB-SYS" "SB-THREAD" "SB-UNIX" "SB-VM"))
+  ("with-deadline" 1
+   ("SB-ALIEN" "SB-C" "SB-DEBUG" "SB-DI" "SB-EXT" "SB-FASL" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-REGALLOC" "SB-SYS" "SB-THREAD" "SB-UNIX" "SB-VM"))
+  ("without-interrupts" 0
+   ("SB-ALIEN" "SB-C" "SB-DEBUG" "SB-DI" "SB-EXT" "SB-FASL" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-REGALLOC" "SB-SYS" "SB-THREAD" "SB-UNIX" "SB-VM"))
+  ("with-local-interrupts" 0
+   ("SB-ALIEN" "SB-C" "SB-DEBUG" "SB-DI" "SB-EXT" "SB-FASL" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-REGALLOC" "SB-SYS" "SB-THREAD" "SB-UNIX" "SB-VM"))
+  ("in-interruption" 1
+   ("SB-ALIEN" "SB-C" "SB-DEBUG" "SB-DI" "SB-EXT" "SB-FASL" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-REGALLOC" "SB-SYS" "SB-THREAD" "SB-UNIX" "SB-VM"))
+  ("with-interrupts" 0
+   ("SB-ALIEN" "SB-C" "SB-DEBUG" "SB-DI" "SB-EXT" "SB-FASL" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-REGALLOC" "SB-SYS" "SB-THREAD" "SB-UNIX" "SB-VM"))
+  ("with-sequence-iterator" 2 ("SB-SEQUENCE"))
+  ("with-sequence-iterator-functions" 2 ("SB-SEQUENCE"))
+  ("dosequence" 1 ("SB-SEQUENCE")) ("do-oset-elements" 1 ("SB-REGALLOC"))
+  ("do-target-tns" 1 ("SB-REGALLOC")) ("with-pretty-stream" 1 ("SB-PRETTY"))
+  ("dfun-miss" 1 ("SB-PCL")) ("pv-binding" 1 ("SB-PCL"))
+  ("pv-binding1" 1 ("SB-PCL")) ("dotimes-fixnum" 1 ("SB-PCL"))
+  ("dolist-carefully" 1 ("SB-PCL")) ("bind-args" 1 ("SB-PCL"))
+  ("with-dfun-wrappers" 3 ("SB-PCL"))
+  ("fast-lexical-method-functions" 1 ("SB-PCL"))
+  ("bind-fast-lexical-method-functions" 1 ("SB-PCL"))
+  ("with-type-checked" 1 ("SB-PCL"))
+  ("simple-lexical-method-functions" 1 ("SB-PCL"))
+  ("bind-simple-lexical-method-functions" 1 ("SB-PCL"))
+  ("randomly-punting-lambda" 1 ("SB-PCL"))
+  ("with-loop-list-collection-head" 1 ("SB-LOOP"))
+  ("with-minimax-value" 1 ("SB-LOOP")) ("with-sum-count" 1 ("SB-LOOP"))
+  ("with-world-lock" 1
+   ("SB-CLTL2" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-EVAL" "SB-FASL"
+    "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-THREAD" "SB-VM"))
+  ("descend-into" 1
+   ("SB-CLTL2" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-EVAL" "SB-FASL"
+    "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-THREAD" "SB-VM"))
+  ("with-single-package-locked-error" 1
+   ("SB-CLTL2" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-EVAL" "SB-FASL"
+    "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-THREAD" "SB-VM"))
+  ("with-circularity-detection" 1
+   ("SB-CLTL2" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-EVAL" "SB-FASL"
+    "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-THREAD" "SB-VM"))
+  ("do-closure-values" 1
+   ("SB-CLTL2" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-EVAL" "SB-FASL"
+    "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-THREAD" "SB-VM"))
+  ("do-instance-tagged-slot" 1
+   ("SB-CLTL2" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-EVAL" "SB-FASL"
+    "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-THREAD" "SB-VM"))
+  ("do-rest-arg" 1
+   ("SB-CLTL2" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-EVAL" "SB-FASL"
+    "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-THREAD" "SB-VM"))
+  ("number-dispatch" 1 ("SB-KERNEL"))
+  ("named-lambda" 2
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("binding*" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("with-locked-system-table" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("dovector" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("with-unique-names" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("with-fast-read-byte" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("with-sane-io-syntax" 0
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("with-float-traps-masked" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("define-deprecated-function" 5
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("prepare-for-fast-read-char" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("doplist" 2
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("defmacro-mundanely" 2
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("dx-flet" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("once-only" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("defun-cached" 2
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("named-let" 2
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("dohash" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("with-rebound-io-syntax" 0
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("define-function-name-syntax" 2
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("with-progressive-timeout" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("collect" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("awhen" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("dx-let" 1
+   ("SB-CLTL2" "SB-ALIEN" "SB-ASSEM" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-DISASSEM" "SB-EXT" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-INT"
+    "SB-KERNEL" "SB-PCL" "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-SYS"
+    "SB-THREAD" "SB-UNICODE" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("with-stepping-enabled" 0 ("SB-IMPL")) ("output-wrapper" 1 ("SB-IMPL"))
+  ("handling-end-of-the-world" 0 ("SB-IMPL"))
+  ("with-standard-replacement-character" 0 ("SB-IMPL"))
+  ("with-scheduler-lock" 1 ("SB-IMPL"))
+  ("output-wrapper/variable-width" 1 ("SB-IMPL"))
+  ("with-concurrent-access-check" 2 ("SB-IMPL"))
+  ("with-read-buffer" 1 ("SB-IMPL"))
+  ("define-unibyte-mapping-external-format" 2 ("SB-IMPL"))
+  ("with-push-char" 1 ("SB-IMPL")) ("define-array-dispatch" 2 ("SB-IMPL"))
+  ("input-wrapper/variable-width" 1 ("SB-IMPL"))
+  ("with-package-graph" 1 ("SB-IMPL")) ("with-environment" 1 ("SB-IMPL"))
+  ("with-stepping-disabled" 0 ("SB-IMPL"))
+  ("with-descriptor-handlers" 0 ("SB-IMPL")) ("string-dispatch" 2 ("SB-IMPL"))
+  ("with-native-directory-iterator" 1 ("SB-IMPL"))
+  ("map-into-lambda" 2 ("SB-IMPL")) ("def-output-routines" 1 ("SB-IMPL"))
+  ("with-package-names" 1 ("SB-IMPL"))
+  ("with-default-decoding-replacement" 1 ("SB-IMPL"))
+  ("input-wrapper" 1 ("SB-IMPL")) ("define-sequence-traverser" 2 ("SB-IMPL"))
+  ("with-symbol" 1 ("SB-IMPL")) ("do-vector-data" 1 ("SB-IMPL"))
+  ("with-active-processes-lock" 1 ("SB-IMPL"))
+  ("def-output-routines/variable-width" 1 ("SB-IMPL"))
+  ("with-args" 1 ("SB-IMPL")) ("with-finalizer-store-lock" 0 ("SB-IMPL"))
+  ("with-hash-table-locks" 1 ("SB-IMPL"))
+  ("with-available-buffers-lock" 1 ("SB-IMPL"))
+  ("lambda-with-lexenv" 3 ("SB-IMPL")) ("expand-bind-defaults" 2 ("SB-FORMAT"))
+  ("define-fop" 1 ("SB-FASL")) ("with-fop-stack" 1 ("SB-FASL"))
+  ("define-cloned-fops" 2 ("SB-FASL"))
+  ("with-unlocked-packages" 1
+   ("SB-BSD-SOCKETS-INTERNAL" "COMMON-LISP-USER" "SB-ALIEN" "SB-ASSEM"
+    "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-DISASSEM" "SB-EVAL" "SB-EXT"
+    "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-SYS" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("with-timeout" 1
+   ("SB-BSD-SOCKETS-INTERNAL" "COMMON-LISP-USER" "SB-ALIEN" "SB-ASSEM"
+    "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-DISASSEM" "SB-EVAL" "SB-EXT"
+    "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-SYS" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("define-source-context" 2
+   ("SB-BSD-SOCKETS-INTERNAL" "COMMON-LISP-USER" "SB-ALIEN" "SB-ASSEM"
+    "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-DISASSEM" "SB-EVAL" "SB-EXT"
+    "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-SYS" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("without-package-locks" 0
+   ("SB-BSD-SOCKETS-INTERNAL" "COMMON-LISP-USER" "SB-ALIEN" "SB-ASSEM"
+    "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-DISASSEM" "SB-EVAL" "SB-EXT"
+    "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-SYS" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("with-locked-hash-table" 1
+   ("SB-BSD-SOCKETS-INTERNAL" "COMMON-LISP-USER" "SB-ALIEN" "SB-ASSEM"
+    "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-DISASSEM" "SB-EVAL" "SB-EXT"
+    "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-SYS" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("define-cas-expander" 2
+   ("SB-BSD-SOCKETS-INTERNAL" "COMMON-LISP-USER" "SB-ALIEN" "SB-ASSEM"
+    "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI" "SB-DISASSEM" "SB-EVAL" "SB-EXT"
+    "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL" "SB-PRETTY"
+    "SB-PROFILE" "SB-REGALLOC" "SB-SYS" "SB-UNIX" "SB-VM" "SB-WALKER"))
+  ("program-destructuring-bind" 2 ("SB-EVAL"))
+  ("do-debug-fun-vars" 1 ("SB-DI")) ("do-debug-fun-blocks" 1 ("SB-DI"))
+  ("do-debug-block-locations" 1 ("SB-DI"))
+  ("with-debug-io-syntax" 1 ("SB-DEBUG"))
+  ("sc-case" 1 ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("deftransform" 2 ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("def-ir1-translator" 2 ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("source-transform-lambda" 1
+   ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("defknown" 4 ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("with-compiler-error-resignalling" 0
+   ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("defoptimizer" 2 ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("define-vop" 1 ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("with-source-location" 1
+   ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("define-move-fun" 3 ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("define-source-transform" 2
+   ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("define-assembly-routine" 2
+   ("SB-CLTL2" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("with-ir1-namespace" 0 ("SB-C")) ("do-live-tns" 1 ("SB-C" "SB-REGALLOC"))
+  ("do-propagatable-constraints" 1 ("SB-C")) ("do-sc-pairs" 1 ("SB-C"))
+  ("do-conset-constraints-intersection" 1 ("SB-C"))
+  ("define-modular-fun-optimizer" 2 ("SB-C"))
+  ("with-component-last-block" 1 ("SB-C")) ("processing-decls" 1 ("SB-C"))
+  ("compiler-destructuring-bind" 3 ("SB-C")) ("do-blocks-backwards" 1 ("SB-C"))
+  ("do-nodes" 1 ("SB-C")) ("with-source-paths" 0 ("SB-C"))
+  ("do-nodes-backwards" 1 ("SB-C")) ("do-eql-vars" 1 ("SB-C"))
+  ("do-physenv-ir2-blocks" 1 ("SB-C")) ("with-compiler-io-syntax" 0 ("SB-C"))
+  ("do-inheritable-constraints" 1 ("SB-C")) ("do-blocks" 1 ("SB-C"))
+  ("define-internal-pcl-function-name-syntax" 2 ("SB-C"))
+  ("do-nodes-carefully" 1 ("SB-C")) ("with-fun-name-leaf" 1 ("SB-C"))
+  ("with-packed-info-iterator" 1 ("SB-C")) ("do-packed-tns" 1 ("SB-C"))
+  ("with-compilation-values" 0 ("SB-C"))
+  ("do-ir2-blocks" 1 ("SB-C" "SB-REGALLOC")) ("do-forms-from-info" 1 ("SB-C"))
+  ("do-uses" 1 ("SB-C"))
+  ("without-scheduling" 1 ("SB-ASSEM" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("assemble" 1 ("SB-ASSEM" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("define-instruction-macro" 2
+   ("SB-ASSEM" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("do-sset-elements" 1 ("SB-ASSEM" "SB-C" "SB-FASL" "SB-REGALLOC" "SB-VM"))
+  ("with-modified-segment-index-and-posn" 1 ("SB-ASSEM"))
+  ("note-dependencies" 1 ("SB-ASSEM"))
+  ("maybe-with-pinned-objects" 2
+   ("SB-ALIEN" "SB-ALIEN-INTERNALS" "SB-C" "SB-KERNEL" "SB-REGALLOC" "SB-VM"))
+  ("define-alien-type-translator" 2
+   ("SB-ALIEN" "SB-ALIEN-INTERNALS" "SB-C" "SB-KERNEL" "SB-REGALLOC" "SB-VM"))
+  ("with-alien" 1
+   ("SB-POSIX" "SB-BSD-SOCKETS-INTERNAL" "COMMON-LISP-USER" "SB-ALIEN" "SB-C"
+    "SB-EXT" "SB-FASL" "SB-IMPL" "SB-INT" "SB-KERNEL" "SB-REGALLOC" "SB-THREAD"
+    "SB-UNIX" "SB-VM"))
+  ("alien-lambda" 2 ("SB-ALIEN")) ("define-alien-callback" 3 ("SB-ALIEN"))
+  ("with-auxiliary-alien-types" 1 ("SB-ALIEN"))
+  ("converting-errors-to-error-location" 0
+   ("SWANK" "SWANK/GRAY" "SWANK/SBCL" "SWANK/BACKEND"))
+  ("with-compilation-hooks" 1
+   ("SWANK" "SWANK/GRAY" "SWANK/SBCL" "SWANK/BACKEND"))
+  ("with-struct" 2 ("SWANK" "SWANK/GRAY" "SWANK/SBCL" "SWANK/BACKEND"))
+  ("when-let" 1 ("SWANK" "SWANK/GRAY" "SWANK/SBCL" "SWANK/BACKEND"))
+  ("defimplementation" 2
+   ("SWANK" "SWANK/GRAY" "SWANK/SBCL" "SWANK/SOURCE-FILE-CACHE"
+    "SWANK/BACKEND"))
+  ("with-definition-source" 2 ("SWANK/SBCL"))
+  ("with-compiler-policy" 1 ("SWANK/SBCL"))
+  ("with-debootstrapping" 0 ("SWANK/SBCL"))
+  ("with-in6-addr" 2 ("SB-BSD-SOCKETS-INTERNAL"))
+  ("with-in-addr" 2 ("SB-BSD-SOCKETS-INTERNAL"))
+  ("with-hostent" 2 ("SB-BSD-SOCKETS-INTERNAL"))
+  ("with-msghdr" 2 ("SB-BSD-SOCKETS-INTERNAL"))
+  ("with-sockaddr-un-abstract" 2 ("SB-BSD-SOCKETS-INTERNAL"))
+  ("with-array-data" 1
+   ("SB-CLTL2" "SB-BSD-SOCKETS-INTERNAL" "SB-BIGNUM" "SB-C" "SB-DEBUG" "SB-DI"
+    "SB-EVAL" "SB-FASL" "SB-FORMAT" "SB-GRAY" "SB-IMPL" "SB-KERNEL" "SB-PCL"
+    "SB-PRETTY" "SB-PROFILE" "SB-REGALLOC" "SB-THREAD" "SB-VM"))
+  ("with-sockaddr-un" 2 ("SB-BSD-SOCKETS-INTERNAL"))
+  ("with-addrinfo" 2 ("SB-BSD-SOCKETS-INTERNAL"))
+  ("with-sockaddr-in" 2 ("SB-BSD-SOCKETS-INTERNAL"))
+  ("with-sockaddr-in6" 2 ("SB-BSD-SOCKETS-INTERNAL"))
+  ("with-protoent" 2 ("SB-BSD-SOCKETS-INTERNAL"))
+  ("with-socket-addr" 2 ("SB-BSD-SOCKETS"))
+  ("socket-error-case" 2 ("SB-BSD-SOCKETS"))
+  ("addrinfo-error-case" 2 ("SB-BSD-SOCKETS"))
+  ("with-socket-fd-and-addr" 2 ("SB-BSD-SOCKETS"))
+  ("with-vector-sap" 1 ("SB-BSD-SOCKETS"))
+  ("syscall-error-case" 2 ("SB-BSD-SOCKETS"))
+  ("with-growing-c-string" 1 ("SB-POSIX"))
+  ("define-entry-point" 2 ("SB-POSIX")) ("with-dirent" 2 ("SB-POSIX"))
+  ("with-alien-stat" 2 ("SB-POSIX")) ("with-alien-group" 2 ("SB-POSIX"))
+  ("define-designator" 3 ("SB-POSIX")) ("with-alien-passwd" 2 ("SB-POSIX"))
+  ("with-alien-termios" 2 ("SB-POSIX")) ("with-alien-utimbuf" 2 ("SB-POSIX"))
+  ("with-alien-flock" 2 ("SB-POSIX")) ("with-alien-timeval" 2 ("SB-POSIX"))
+  ("define-declaration" 2 ("SB-CLTL2"))
+  ("with-slime-output-stream" 1 ("SWANK/GRAY"))
+  ("match" 1 ("SWANK" "SWANK/MATCH")) ("with-bindings" 1 ("SWANK"))
+  ("with-panic-handler" 1 ("SWANK")) ("with-swank-error-handler" 1 ("SWANK"))
+  ("with-connection" 1 ("SWANK")) ("with-io-redirection" 1 ("SWANK"))
+  ("with-struct*" 1 ("SWANK")) ("with-buffer-syntax" 1 ("SWANK"))
+  ("define-channel-method" 2 ("SWANK")) ("with-string-stream" 1 ("SWANK"))
+  ("without-printing-errors" 1 ("SWANK")) ("with-retry-restart" 1 ("SWANK"))
+  ("with-describe-settings" 1 ("SWANK")) ("with-slime-interrupts" 0 ("SWANK"))
+  ("dcase" 1 ("SWANK")) ("defslimefun" 2 ("SWANK"))
+  ("restart-loop" 1 ("SWANK")) ("without-slime-interrupts" 0 ("SWANK"))
+  ("with-top-level-restart" 1 ("SWANK"))))
+Write: (:RETURN
+ (:OK
+  ("SWANK-ARGLISTS" "SWANK-FANCY-INSPECTOR" "SWANK-FUZZY" "SWANK-C-P-C"
+   "SWANK-UTIL" "SWANK-PRESENTATIONS" "SWANK-REPL" "SWANK-PACKAGE-FU"
+   "SWANK-TRACE-DIALOG" "SB-CLTL2" "SB-POSIX" "SB-INTROSPECT"
+   "SB-BSD-SOCKETS"))
+ 2)
+Read: (:EMACS-REX (SWANK:INIT-PRESENTATIONS) "COMMON-LISP-USER" T 3)
+Write: (:RETURN (:OK SWANK::PRESENT-REPL-RESULTS) 3)
+Read: (:EMACS-REX (SWANK-REPL:CREATE-REPL NIL :CODING-SYSTEM "utf-8-unix")
+ "COMMON-LISP-USER" T 4)
+Write: (:RETURN (:OK ("COMMON-LISP-USER" "CL-USER")) 4)
+
+
+
+
+Read: (:EMACS-REX
+ (SWANK:AUTODOC '("+" "" SWANK::%CURSOR-MARKER%) :PRINT-RIGHT-MARGIN 80)
+ "COMMON-LISP-USER" :REPL-THREAD 5)
+Write: (:RETURN (:OK ("(+ &rest ===> numbers <===)" T)) 5)
+Read: (:EMACS-REX
+ (SWANK:AUTODOC '("+" "1" "" SWANK::%CURSOR-MARKER%) :PRINT-RIGHT-MARGIN 80)
+ "COMMON-LISP-USER" :REPL-THREAD 6)
+Write: (:RETURN (:OK ("(+ &rest ===> numbers <===)" T)) 6)
+
+
+
+Read: (:EMACS-REX
+ (SWANK-REPL:LISTENER-EVAL "(+ 1 1)
+")
+ "COMMON-LISP-USER" :REPL-THREAD 7)
+Write: (:PRESENTATION-START 1 :REPL-RESULT)
+Write: (:WRITE-STRING "2" :REPL-RESULT)
+Write: (:PRESENTATION-END 1 :REPL-RESULT)
+Write: (:WRITE-STRING "
+"
+ :REPL-RESULT)
+Write: (:RETURN (:OK NIL) 7)

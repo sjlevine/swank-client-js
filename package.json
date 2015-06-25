@@ -1,0 +1,11 @@
+{
+  "name": "swank-client-js",
+  "version": "0.0.0",
+  "description": "A JavaScript client for a Swank server, allowing JavaScript code to interact with Lisp code!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Steve Levine",
+  "license": "ISC"
+}
