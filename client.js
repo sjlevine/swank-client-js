@@ -1,6 +1,7 @@
 var php = require('phpjs');
 var net = require('net');
 var paredit = require('paredit.js');
+var Q = require('q');
 
 /* Swank client class! */
 
@@ -23,6 +24,11 @@ function Client(host, port) {
 }
 
 
+
+/*****************************************************************
+ Low-level data handling protocol
+ */
+
 Client.prototype.send_message = function(msg) {
   var msg_utf8 = php.utf8_encode(msg);
   // Construct the length, which is a 6-byte
@@ -32,19 +38,22 @@ Client.prototype.send_message = function(msg) {
   // Assemble overall message
   var msg_overall = len_str + msg_utf8;
   // Send it
+  // console.log("Write:")
+  // console.log("    Length: " + len_str + " (" + msg_utf8.length + ")");
+  // console.log("    Msg: ...");
   this.socket.write(msg_overall);
 }
 
 
 Client.prototype.connect = function() {
   // Create a socket
+  var deferred = Q.defer();
   var sc = this; // Because the 'this' operator changes scope
   this.socket = net.connect({
       host: this.host,
       port: this.port
-    }, function() {
-      sc.on_handlers.connect();
-  });
+    }, deferred.resolve);
+  this.socket.setNoDelay(true);
   this.socket.setEncoding('ascii');
 
   this.socket.on('data', function(data) {
@@ -53,6 +62,8 @@ Client.prototype.connect = function() {
   this.socket.on('end', function() {
     sc.on_handlers.disconnect();
   });
+
+  return deferred.promise;
 }
 
 /* Some data just came in over the wire. Make sure to read it in
@@ -112,25 +123,6 @@ Client.prototype.on = function(event, fn) {
   this.on_handlers[event] = fn;
 }
 
-
-Client.prototype.rex = function(cmd, package, thread, callback) {
-    // Run an EMACS-REX command, and call the callback
-    // when we have a return value, with the parsed paredit s-expression
-    // Add an entry into our table!
-    var id = this.req_counter;
-    this.req_counter = this.req_counter + 1;
-    this.req_table[id] = {
-        id: id,
-        cmd: cmd,
-        package: package,
-        callback: callback
-    };
-
-    // Dispatch a command to swank
-    var rex_cmd = "(:EMACS-REX " + cmd + " \"" + package + "\" " + thread + " " + id + ")";
-    this.send_message(rex_cmd);
-}
-
 Client.prototype.on_swank_message = function(msg) {
     var ast = paredit.parse(msg);
     var sexp = ast.children[0];
@@ -143,6 +135,32 @@ Client.prototype.on_swank_message = function(msg) {
 
 }
 
+
+
+/*****************************************************************
+ Evaluating EMACS-REX (remote execution) commands
+ */
+
+Client.prototype.rex = function(cmd, package, thread) {
+    // Run an EMACS-REX command, and call the callback
+    // when we have a return value, with the parsed paredit s-expression
+    // Add an entry into our table!
+    var deferred = Q.defer();
+    var id = this.req_counter;
+    this.req_counter = this.req_counter + 1;
+    this.req_table[id] = {
+        id: id,
+        cmd: cmd,
+        package: package,
+        deferred: deferred
+    };
+
+    // Dispatch a command to swank
+    var rex_cmd = "(:EMACS-REX " + cmd + " \"" + package + "\" " + thread + " " + id + ")";
+    this.send_message(rex_cmd);
+    return deferred.promise;
+}
+
 Client.prototype.swank_message_rex_return_handler = function(cmd) {
     var status = cmd.children[1].children[0].source.toLowerCase();
     var return_val = cmd.children[1].children[1];
@@ -152,12 +170,28 @@ Client.prototype.swank_message_rex_return_handler = function(cmd) {
     if (id in this.req_table) {
         var req = this.req_table[id];
         delete this.req_table[id];
-        req.callback(return_val);
+        // console.log("Resolving " + id);
+        req.deferred.resolve(return_val);
     } else {
         console.error("Received REX response for unknown command ID");
     }
+}
 
-
+/*****************************************************************
+ Higher-level commands
+ */
+Client.prototype.initialize = function() {
+  // Run these useful initialization commands one after another
+  var self = this;
+  return self.rex("(SWANK:SWANK-REQUIRE  \
+    '(SWANK-IO-PACKAGE::SWANK-TRACE-DIALOG SWANK-IO-PACKAGE::SWANK-PACKAGE-FU \
+      SWANK-IO-PACKAGE::SWANK-PRESENTATIONS SWANK-IO-PACKAGE::SWANK-FUZZY \
+      SWANK-IO-PACKAGE::SWANK-FANCY-INSPECTOR SWANK-IO-PACKAGE::SWANK-C-P-C \
+      SWANK-IO-PACKAGE::SWANK-ARGLISTS SWANK-IO-PACKAGE::SWANK-REPL))", 'COMMON-LISP-USER', 'T')
+      .then(function(response) {
+        return self.rex("(SWANK:INIT-PRESENTATIONS)", 'COMMON-LISP-USER', 'T');})
+      .then(function(response) {
+        return self.rex('(SWANK-REPL:CREATE-REPL NIL :CODING-SYSTEM "utf-8-unix")', 'COMMON-LISP-USER', 'T');});
 }
 
 
