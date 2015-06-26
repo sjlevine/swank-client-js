@@ -132,7 +132,32 @@ Client.prototype.rex = function(cmd, package, thread, callback) {
 }
 
 Client.prototype.on_swank_message = function(msg) {
-    console.log("Got msg of length " + msg.length);
+    var ast = paredit.parse(msg);
+    var sexp = ast.children[0];
+    var cmd = sexp.children[0].source.toLowerCase();
+    if (cmd == ":return") {
+        this.swank_message_rex_return_handler(sexp);
+    } else {
+        console.log("Ignoring command " + cmd);
+    }
+
+}
+
+Client.prototype.swank_message_rex_return_handler = function(cmd) {
+    var status = cmd.children[1].children[0].source.toLowerCase();
+    var return_val = cmd.children[1].children[1];
+    var id = cmd.children[2].source;
+
+    // Look up the appropriate callback and return it!
+    if (id in this.req_table) {
+        var req = this.req_table[id];
+        delete this.req_table[id];
+        req.callback(return_val);
+    } else {
+        console.error("Received REX response for unknown command ID");
+    }
+
+
 }
 
 
