@@ -194,5 +194,22 @@ Client.prototype.initialize = function() {
         return self.rex('(SWANK-REPL:CREATE-REPL NIL :CODING-SYSTEM "utf-8-unix")', 'COMMON-LISP-USER', 'T');});
 }
 
+Client.prototype.autodoc = function(sexp_string, cursor_position, pkg) {
+  var cmd = '(SWANK:AUTODOC \'('; // '"potato" SWANK::%CURSOR-MARKER%) :PRINT-RIGHT-MARGIN 80)';
+
+  var ast = paredit.parse(sexp_string);
+  cmd += '"' + ast.children[0].children[0].source + '"';
+  cmd += ' "" SWANK::%CURSOR-MARKER%) :PRINT-RIGHT-MARGIN 80)';
+
+  console.log(cmd);
+
+  // Return a promise that will yield the result.
+  return this.rex(cmd, pkg, ':REPL-THREAD')
+    .then(function (ast) {
+      return ast.children[0].source;
+    })
+
+}
+
 
 module.exports.Client = Client;
