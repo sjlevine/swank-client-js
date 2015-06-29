@@ -141,7 +141,7 @@ Client.prototype.on_swank_message = function(msg) {
  Evaluating EMACS-REX (remote execution) commands
  */
 
-Client.prototype.rex = function(cmd, package, thread) {
+Client.prototype.rex = function(cmd, pkg, thread) {
     // Run an EMACS-REX command, and call the callback
     // when we have a return value, with the parsed paredit s-expression
     // Add an entry into our table!
@@ -151,12 +151,12 @@ Client.prototype.rex = function(cmd, package, thread) {
     this.req_table[id] = {
         id: id,
         cmd: cmd,
-        package: package,
+        pkg: pkg,
         deferred: deferred
     };
 
     // Dispatch a command to swank
-    var rex_cmd = "(:EMACS-REX " + cmd + " \"" + package + "\" " + thread + " " + id + ")";
+    var rex_cmd = "(:EMACS-REX " + cmd + " \"" + pkg + "\" " + thread + " " + id + ")";
     this.send_message(rex_cmd);
     return deferred.promise;
 }
@@ -195,18 +195,55 @@ Client.prototype.initialize = function() {
 }
 
 Client.prototype.autodoc = function(sexp_string, cursor_position, pkg) {
-  var cmd = '(SWANK:AUTODOC \'('; // '"potato" SWANK::%CURSOR-MARKER%) :PRINT-RIGHT-MARGIN 80)';
+
 
   var ast = paredit.parse(sexp_string);
-  cmd += '"' + ast.children[0].children[0].source + '"';
-  cmd += ' "" SWANK::%CURSOR-MARKER%) :PRINT-RIGHT-MARGIN 80)';
+  try {
+
+    var forms = ast.children[0];
+    console.log(forms);
+    var output_forms = [];
+    //output_forms.push('"' + forms.children[0].source + '"');
+    var didCursor = false;
+    console.log("Cursor: " + cursor_position);
+    for(var i = 0; i < forms.children.length; i++) {
+      var form = forms.children[i];
+      console.log(form.start + ", " + form.end);
+
+      output_forms.push('"' + form.source + '"');
+
+      if (cursor_position >= form.start && cursor_position <= form.end && !didCursor) {
+        output_forms.push('SWANK::%CURSOR-MARKER%');
+        didCursor = true;
+        break;
+      }
+
+    }
+    if (!didCursor) {
+      output_forms.push('""');
+      output_forms.push('SWANK::%CURSOR-MARKER%');
+      didCursor = true;
+    }
+
+    var cmd = '(SWANK:AUTODOC \'('; // '"potato" SWANK::%CURSOR-MARKER%) :PRINT-RIGHT-MARGIN 80)';
+    cmd += output_forms.join(' ');
+    cmd += ') :PRINT-RIGHT-MARGIN 80)';
+  } catch (e) {
+    // Return a promise with nothing then
+    console.log("Error constructing command: " + e.toString());
+    return Q({type: 'symbol', source: ':not-available'});
+  }
 
   console.log(cmd);
 
   // Return a promise that will yield the result.
   return this.rex(cmd, pkg, ':REPL-THREAD')
     .then(function (ast) {
-      return ast.children[0].source;
+      try {
+        return ast.children[0];
+      } catch (e) {
+        return {type: 'symbol', source: ':not-available'};
+      }
     })
 
 }
