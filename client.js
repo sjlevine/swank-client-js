@@ -16,6 +16,7 @@ function Client(host, port) {
 
   this.on_handlers = {
     connect: function() {},
+    presentation_print: function(m) {},
     disconnect: function() {}
   }
 
@@ -129,6 +130,8 @@ Client.prototype.on_swank_message = function(msg) {
     var cmd = sexp.children[0].source.toLowerCase();
     if (cmd == ":return") {
         this.swank_message_rex_return_handler(sexp);
+    } else if (cmd == ':write-string') {
+        this.on_handlers.presentation_print(sexp.children[1].source.slice(1,-1));
     } else {
         console.log("Ignoring command " + cmd);
     }
@@ -194,37 +197,27 @@ Client.prototype.initialize = function() {
         return self.rex('(SWANK-REPL:CREATE-REPL NIL :CODING-SYSTEM "utf-8-unix")', 'COMMON-LISP-USER', 'T');});
 }
 
+/* Gets autodocumentation for the given sexp, given the cursor's position */
 Client.prototype.autodoc = function(sexp_string, cursor_position, pkg) {
-
-
   var ast = paredit.parse(sexp_string);
   try {
-
     var forms = ast.children[0];
-    console.log(forms);
     var output_forms = [];
-    //output_forms.push('"' + forms.children[0].source + '"');
     var didCursor = false;
-    console.log("Cursor: " + cursor_position);
     for(var i = 0; i < forms.children.length; i++) {
       var form = forms.children[i];
-      console.log(form.start + ", " + form.end);
-
       output_forms.push('"' + form.source + '"');
-
       if (cursor_position >= form.start && cursor_position <= form.end && !didCursor) {
         output_forms.push('SWANK::%CURSOR-MARKER%');
         didCursor = true;
         break;
       }
-
     }
     if (!didCursor) {
       output_forms.push('""');
       output_forms.push('SWANK::%CURSOR-MARKER%');
       didCursor = true;
     }
-
     var cmd = '(SWANK:AUTODOC \'('; // '"potato" SWANK::%CURSOR-MARKER%) :PRINT-RIGHT-MARGIN 80)';
     cmd += output_forms.join(' ');
     cmd += ') :PRINT-RIGHT-MARGIN 80)';
@@ -233,9 +226,6 @@ Client.prototype.autodoc = function(sexp_string, cursor_position, pkg) {
     console.log("Error constructing command: " + e.toString());
     return Q({type: 'symbol', source: ':not-available'});
   }
-
-  console.log(cmd);
-
   // Return a promise that will yield the result.
   return this.rex(cmd, pkg, ':REPL-THREAD')
     .then(function (ast) {
@@ -244,8 +234,12 @@ Client.prototype.autodoc = function(sexp_string, cursor_position, pkg) {
       } catch (e) {
         return {type: 'symbol', source: ':not-available'};
       }
-    })
+    });
+}
 
+Client.prototype.eval = function(sexp_string, pkg) {
+  var cmd = '(SWANK-REPL:LISTENER-EVAL "' + sexp_string + '")';
+  return this.rex(cmd, pkg, ':REPL-THREAD');
 }
 
 
