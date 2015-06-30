@@ -160,6 +160,7 @@ Client.prototype.rex = function(cmd, pkg, thread) {
 
     // Dispatch a command to swank
     var rex_cmd = "(:EMACS-REX " + cmd + " \"" + pkg + "\" " + thread + " " + id + ")";
+    //console.log(rex_cmd);
     this.send_message(rex_cmd);
     return deferred.promise;
 }
@@ -238,7 +239,7 @@ Client.prototype.autodoc = function(sexp_string, cursor_position, pkg) {
 }
 
 Client.prototype.eval = function(sexp_string, pkg) {
-  var cmd = '(SWANK-REPL:LISTENER-EVAL "' + sexp_string + '")';
+  var cmd = '(SWANK-REPL:LISTENER-EVAL "' + sexp_string.replace(/\"/g, '\\"') + '")';
   return this.rex(cmd, pkg, ':REPL-THREAD');
 }
 
