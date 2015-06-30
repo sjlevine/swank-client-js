@@ -1,6 +1,6 @@
 {
   "name": "swank-client-js",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A Javascript client for interacting with a Lisp swank server",
   "main": "client.js",
   "scripts": {
@@ -10,7 +10,13 @@
     "type": "git",
     "url": "https://github.com/sjlevine/swank-client-js"
   },
+  "dependencies": {
+    "paredit.js": "^0.2.9",
+    "net": "^1.0.2",
+    "phpjs": "^1.3.2",
+    "q": "^1.4.1"
+  },
   "keywords": ["lisp", "swank", "slime"],
   "author": "Steve Levine",
-  "license": "MIT",
+  "license": "MIT"
 }
