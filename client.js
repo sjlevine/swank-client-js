@@ -17,6 +17,7 @@ function Client(host, port) {
   this.on_handlers = {
     connect: function() {},
     presentation_print: function(m) {},
+    new_package: function(p) {},
     disconnect: function() {}
   }
 
@@ -132,6 +133,8 @@ Client.prototype.on_swank_message = function(msg) {
         this.swank_message_rex_return_handler(sexp);
     } else if (cmd == ':write-string') {
         this.on_handlers.presentation_print(sexp.children[1].source.slice(1,-1));
+    } else if (cmd == ":new-package") {
+        this.on_handlers.new_package(sexp.children[1].source.slice(1, -1));
     } else {
         console.log("Ignoring command " + cmd);
     }
@@ -160,7 +163,7 @@ Client.prototype.rex = function(cmd, pkg, thread) {
 
     // Dispatch a command to swank
     var rex_cmd = "(:EMACS-REX " + cmd + " \"" + pkg + "\" " + thread + " " + id + ")";
-    //console.log(rex_cmd);
+    console.log(rex_cmd);
     this.send_message(rex_cmd);
     return deferred.promise;
 }
