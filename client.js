@@ -18,6 +18,9 @@ function Client(host, port) {
     connect: function() {},
     presentation_print: function(m) {},
     new_package: function(p) {},
+    debug_activate: function(obj) {},
+    debug_setup: function(obj) {},
+    debug_return: function(obj) {},
     disconnect: function() {}
   }
 
@@ -129,18 +132,24 @@ Client.prototype.on = function(event, fn) {
 }
 
 Client.prototype.on_swank_message = function(msg) {
-    var ast = paredit.parse(msg);
-    var sexp = ast.children[0];
-    var cmd = sexp.children[0].source.toLowerCase();
-    if (cmd == ":return") {
-        this.swank_message_rex_return_handler(sexp);
-    } else if (cmd == ':write-string') {
-        this.on_handlers.presentation_print(sexp.children[1].source.slice(1,-1));
-    } else if (cmd == ":new-package") {
-        this.on_handlers.new_package(sexp.children[1].source.slice(1, -1));
-    } else {
-        console.log("Ignoring command " + cmd);
-    }
+  var ast = paredit.parse(msg);
+  var sexp = ast.children[0];
+  var cmd = sexp.children[0].source.toLowerCase();
+  if (cmd == ":return") {
+    this.swank_message_rex_return_handler(sexp);
+  } else if (cmd == ':write-string') {
+    this.on_handlers.presentation_print(sexp.children[1].source.slice(1,-1));
+  } else if (cmd == ":new-package") {
+    this.on_handlers.new_package(sexp.children[1].source.slice(1, -1));
+  } else if (cmd == ":debug") {
+    this.debug_setup_handler(sexp);
+  } else if (cmd == ":debug-activate") {
+    this.debug_activate_handler(sexp);
+  } else if (cmd == ":debug-return") {
+    this.debug_return_handler(sexp);
+  } else {
+    console.log("Ignoring command " + cmd);
+  }
 
 }
 
@@ -161,7 +170,7 @@ Client.prototype.rex = function(cmd, pkg, thread) {
     // Dispatch a command to swank
     resolve_fn = resolve;
     var rex_cmd = "(:EMACS-REX " + cmd + " \"" + pkg + "\" " + thread + " " + id + ")";
-    console.log(rex_cmd);
+    // console.log(rex_cmd);
     sc.send_message(rex_cmd);
   });
 
@@ -251,6 +260,43 @@ Client.prototype.autodoc = function(sexp_string, cursor_position, pkg) {
 Client.prototype.eval = function(sexp_string, pkg) {
   var cmd = '(SWANK-REPL:LISTENER-EVAL "' + sexp_string.replace(/\"/g, '\\"') + '")';
   return this.rex(cmd, pkg, ':REPL-THREAD');
+}
+
+
+Client.prototype.debug_setup_handler = function(sexp) {
+  var obj = {};
+  obj.thread = sexp.children[1].source;
+  obj.level = sexp.children[2].source;
+  obj.title = sexp.children[3].children[0].source.slice(1, -1);
+  obj.type = sexp.children[3].children[1].source.slice(1, -1);
+  obj.restarts = [];
+  sexp.children[4].children.forEach(function(restart_sexp) {
+    obj.restarts.push({
+      cmd: restart_sexp.children[0].source.slice(1, -1),
+      description: restart_sexp.children[1].source.slice(1, -1)
+    });
+  });
+// TODO: stack trace
+
+  this.on_handlers.debug_setup(obj);
+}
+
+Client.prototype.debug_activate_handler = function(sexp) {
+  var thread = sexp.children[1].source;
+  var level = sexp.children[2].source;
+  this.on_handlers.debug_activate({thread: thread, level: level});
+}
+
+Client.prototype.debug_return_handler = function(sexp) {
+  var thread = sexp.children[1].source;
+  var level = sexp.children[2].source;
+  this.on_handlers.debug_return({thread: thread, level: level});
+}
+
+Client.prototype.debug_invoke_restart = function(level, restart, thread) {
+  var cmd = '(SWANK:INVOKE-NTH-RESTART-FOR-EMACS ' + level + ' ' + restart + ')';
+  console.log(cmd);
+  return this.rex(cmd, 'COMMON-LISP-USER', thread);
 }
 
 
