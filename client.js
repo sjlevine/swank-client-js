@@ -1,7 +1,6 @@
 var php = require('phpjs');
 var net = require('net');
 var paredit = require('paredit.js');
-var Q = require('q');
 
 /* Swank client class! */
 
@@ -9,6 +8,7 @@ function Client(host, port) {
   this.host = host;
   this.port = port;
   this.socket = null;
+  this.connected = false;
 
   // Useful protocol information
   this.req_counter = 1;
@@ -48,24 +48,27 @@ Client.prototype.send_message = function(msg) {
 
 
 Client.prototype.connect = function() {
-  // Create a socket
-  var deferred = Q.defer();
   var sc = this; // Because the 'this' operator changes scope
-  this.socket = net.connect({
-      host: this.host,
-      port: this.port
-    }, deferred.resolve);
-  this.socket.setNoDelay(true);
-  this.socket.setEncoding('ascii');
+  return new Promise(function(resolve, reject) {
+    // Create a socket
+    sc.socket = net.connect({
+        host: sc.host,
+        port: sc.port
+      }, function() {
+        sc.connected = true;
+        resolve();
+      });
+    sc.socket.setNoDelay(true);
+    sc.socket.setEncoding('ascii');
 
-  this.socket.on('data', function(data) {
-    sc.socket_data_handler(data);
+    sc.socket.on('data', function(data) {
+      sc.socket_data_handler(data);
+    });
+    sc.socket.on('end', function() {
+      sc.connected = false;
+      sc.on_handlers.disconnect();
+    });
   });
-  this.socket.on('end', function() {
-    sc.on_handlers.disconnect();
-  });
-
-  return deferred.promise;
 }
 
 /* Some data just came in over the wire. Make sure to read it in
@@ -148,24 +151,28 @@ Client.prototype.on_swank_message = function(msg) {
  */
 
 Client.prototype.rex = function(cmd, pkg, thread) {
-    // Run an EMACS-REX command, and call the callback
-    // when we have a return value, with the parsed paredit s-expression
-    // Add an entry into our table!
-    var deferred = Q.defer();
-    var id = this.req_counter;
-    this.req_counter = this.req_counter + 1;
-    this.req_table[id] = {
-        id: id,
-        cmd: cmd,
-        pkg: pkg,
-        deferred: deferred
-    };
-
+  // Run an EMACS-REX command, and call the callback
+  // when we have a return value, with the parsed paredit s-expression
+  // Add an entry into our table!
+  var sc = this;
+  var resolve_fn = null;
+  var id = sc.req_counter;
+  var promise = new Promise(function(resolve, reject) {
     // Dispatch a command to swank
+    resolve_fn = resolve;
     var rex_cmd = "(:EMACS-REX " + cmd + " \"" + pkg + "\" " + thread + " " + id + ")";
     console.log(rex_cmd);
-    this.send_message(rex_cmd);
-    return deferred.promise;
+    sc.send_message(rex_cmd);
+  });
+
+  sc.req_counter = sc.req_counter + 1;
+  sc.req_table[id] = {
+    id: id,
+    cmd: cmd,
+    pkg: pkg,
+    promise_resolve_fn: resolve_fn
+  };
+  return promise;
 }
 
 Client.prototype.swank_message_rex_return_handler = function(cmd) {
@@ -178,7 +185,7 @@ Client.prototype.swank_message_rex_return_handler = function(cmd) {
         var req = this.req_table[id];
         delete this.req_table[id];
         // console.log("Resolving " + id);
-        req.deferred.resolve(return_val);
+        req.promise_resolve_fn(return_val);
     } else {
         console.error("Received REX response for unknown command ID");
     }
@@ -228,7 +235,7 @@ Client.prototype.autodoc = function(sexp_string, cursor_position, pkg) {
   } catch (e) {
     // Return a promise with nothing then
     console.log("Error constructing command: " + e.toString());
-    return Q({type: 'symbol', source: ':not-available'});
+    return Promise.resolve({type: 'symbol', source: ':not-available'});
   }
   // Return a promise that will yield the result.
   return this.rex(cmd, pkg, ':REPL-THREAD')

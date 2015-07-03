@@ -1,5 +1,4 @@
 var Swank = require('./client.js');
-var Q = require('q');
 
 var sc = new Swank.Client("localhost", 4005);
 
