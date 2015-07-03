@@ -147,6 +147,8 @@ Client.prototype.on_swank_message = function(msg) {
     this.debug_activate_handler(sexp);
   } else if (cmd == ":debug-return") {
     this.debug_return_handler(sexp);
+  } else if (cmd == ":ping") {
+    this.ping_handler(sexp);
   } else {
     console.log("Ignoring command " + cmd);
   }
@@ -198,6 +200,14 @@ Client.prototype.swank_message_rex_return_handler = function(cmd) {
     } else {
         console.error("Received REX response for unknown command ID");
     }
+}
+
+
+Client.prototype.ping_handler = function(sexp) {
+  // Swank occasionally send's ping messages to see if we're okay.
+  // We must respond!
+  var response = '(:EMACS-PONG ' + sexp.children[1].source + ' ' + sexp.children[2].source + ')';
+  this.send_message(response);
 }
 
 /*****************************************************************
