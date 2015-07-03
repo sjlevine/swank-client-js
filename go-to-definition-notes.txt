@@ -1,0 +1,19 @@
+Read: (:EMACS-REX (SWANK:FIND-DEFINITIONS-FOR-EMACS "compile-plan") "PIKE" :REPL-THREAD 44)
+Write: (:RETURN
+ (:OK
+  (("(DEFGENERIC COMPILE-PLAN
+    (PS))"
+    (:ERROR
+     "Error: DEFINITION-SOURCE of generic-function COMPILE-PLAN did not contain meaningful information."))
+   ("(DEFMETHOD COMPILE-PLAN PIKE-SESSION)"
+    (:LOCATION
+     (:FILE "/home/steve/mtk/workspaces/primary/pike/src/compile-plan.lisp")
+     (:POSITION 1940)
+     (:SNIPPET "(defmethod compile-plan ((ps pike-session))
+  \"Top-level compilation function. This prepares
+   Pike for execution, and may throw errors if problems
+   are detected.\"
+
+  ;; TODO - check success for each for each of these!
+  ;; Use signals, etc. Make sure e")))))
+ 44)

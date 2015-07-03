@@ -1,0 +1,81 @@
+Notes
+===================
+
+Format
+(:debug thread level condition restarts frames conts)
+(:debug-activate thread level &optional select)
+(:debug-return thread level stepping)
+(:debug-condition thread message)
+
+
+Clicking an option:
+Send an emacs-rex: (SWANK:INVOKE-NTH-RESTART-FOR-EMACS level restart-option-index)
+
+
+
+
+Examples
+===============
+
+Running (/ 0 0)
+
+Read: (:EMACS-REX (SWANK-REPL:LISTENER-EVAL "(/ 0 0)") "COMMON-LISP-USER" :REPL-THREAD 7)
+Write: (:DEBUG 1 1 ("arithmetic error DIVISION-BY-ZERO signalled
+Operation was /, operands (0 0)."
+  "   [Condition of type DIVISION-BY-ZERO]" NIL)
+ (("RETRY" "Retry SLIME REPL evaluation request.")
+  ("*ABORT" "Return to SLIME's top level.")
+  ("ABORT" "abort thread (#<THREAD \"repl-thread\" RUNNING {10059CB2F3}>)"))
+ ((0 "(SB-KERNEL::INTEGER-/-INTEGER 0 0)") (1 "(/ 0 0)")
+  (2 "(SB-INT:SIMPLE-EVAL-IN-LEXENV (/ 0 0) #<NULL-LEXENV>)")
+  (3 "(EVAL (/ 0 0))") (4 "(SWANK::EVAL-REGION \"(/ 0 0) ..)" (:RESTARTABLE T))
+  (5 "((LAMBDA NIL :IN SWANK-REPL::REPL-EVAL))" (:RESTARTABLE T))
+  (6
+   "(SWANK-REPL::TRACK-PACKAGE #<CLOSURE (LAMBDA NIL :IN SWANK-REPL::REPL-EVAL) {1005FDD6CB}>)"
+   (:RESTARTABLE T))
+  (7
+   "(SWANK::CALL-WITH-RETRY-RESTART \"Retry SLIME REPL evaluation request.\" #<CLOSURE (LAMBDA NIL :IN SWANK-REPL::REPL-EVAL) {1005FDD62B}>)"
+   (:RESTARTABLE T))
+  (8
+   "(SWANK::CALL-WITH-BUFFER-SYNTAX NIL #<CLOSURE (LAMBDA NIL :IN SWANK-REPL::REPL-EVAL) {1005FDD60B}>)"
+   (:RESTARTABLE T))
+  (9 "(SWANK-REPL::REPL-EVAL \"(/ 0 0) ..)" (:RESTARTABLE T))
+  (10 "(SB-INT:SIMPLE-EVAL-IN-LEXENV (SWANK-REPL:LISTENER-EVAL \"(/ 0 0) ..)")
+  (11 "(EVAL (SWANK-REPL:LISTENER-EVAL \"(/ 0 0) ..)")
+  (12 "(SWANK:EVAL-FOR-EMACS (SWANK-REPL:LISTENER-EVAL \"(/ 0 0) ..)"
+   (:RESTARTABLE T))
+  (13 "(SWANK::PROCESS-REQUESTS NIL)" (:RESTARTABLE T))
+  (14 "((LAMBDA NIL :IN SWANK::HANDLE-REQUESTS))" (:RESTARTABLE T))
+  (15 "((LAMBDA NIL :IN SWANK::HANDLE-REQUESTS))" (:RESTARTABLE T))
+  (16
+   "(SWANK/SBCL::CALL-WITH-BREAK-HOOK #<FUNCTION SWANK:SWANK-DEBUGGER-HOOK> #<CLOSURE (LAMBDA NIL :IN SWANK::HANDLE-REQUESTS) {10059D002B}>)")
+  (17
+   "((FLET SWANK/BACKEND:CALL-WITH-DEBUGGER-HOOK :IN \"/home/steve/Desktop/slime/swank/sbcl.lisp\") #<FUNCTION SWANK:SWANK-DEBUGGER-HOOK> #<CLOSURE (LAMBDA NIL :IN SWANK::HANDLE-REQUESTS) {10059D002B}>)")
+  (18
+   "(SWANK::CALL-WITH-BINDINGS ((*STANDARD-OUTPUT* . #1=#<SWANK/GRAY::SLIME-OUTPUT-STREAM {10058D4043}>) (*STANDARD-INPUT* . #2=#<SWANK/GRAY::SLIME-INPUT-STREAM {1006178173}>) (*TRACE-OUTPUT* . #1#) (*ERR.."
+   (:RESTARTABLE T))
+  (19
+   "(SWANK::HANDLE-REQUESTS #<SWANK::MULTITHREADED-CONNECTION {1004CD0A53}> NIL)"
+   (:RESTARTABLE T)))
+ (7))
+Write: (:DEBUG-ACTIVATE 1 1 NIL)
+
+
+
+Subsequently pressing "q":
+
+Read: (:EMACS-REX (SWANK:THROW-TO-TOPLEVEL) "COMMON-LISP-USER" 1 8)
+Write: (:RETURN (:ABORT "NIL") 8)
+Write: (:DEBUG-RETURN 1 1 NIL)
+Write: (:RETURN (:ABORT "#<DIVISION-BY-ZERO {1005FE0943}>") 7)
+
+
+
+
+
+Or instead pressing *ABORT
+
+Read: (:EMACS-REX (SWANK:INVOKE-NTH-RESTART-FOR-EMACS 1 1) "COMMON-LISP-USER" 1 10)
+Write: (:RETURN (:ABORT "NIL") 10)
+Write: (:DEBUG-RETURN 1 1 NIL)
+Write: (:RETURN (:ABORT "#<DIVISION-BY-ZERO {1003575E23}>") 9)
