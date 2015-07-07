@@ -1,7 +1,19 @@
 # swank-client-js
 
-This library is a Lavascript implementation of a swank client! It provides an API that a text editor may use to communicate with a Lisp process running a swank server. In provides features similar to that of Slime in emacs.
 
-See `test.js` for an example of how to run.
+Implementation of a Swank client in Javascript. Intended for communicating with running Common Lisp processes running a swank server, just like SLIME in Emacs.
 
-This package is also being integrated into the Atom Slime plugin.
+This library provides an editor/view-independent API for making the following queries to a Swank server:
+
+- Evaluating arbitrary Lisp expressions
+- Retrieving auto documentation
+- Controlling a debugger
+
+Future additions to the API:
+
+- Autocompletion requests
+- Object introspection requests
+
+See `test.js` for an example use case.
+
+This package forms a core part of the `atom-slime` package for the Atom text editor.
