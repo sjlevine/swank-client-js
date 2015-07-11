@@ -14,7 +14,8 @@ sc.connect("localhost", 4005)
   return sc.initialize();})
 .then(function() {
   console.log("Autodoc");
-  return sc.autodoc("(+ 1 2)", "COMMON-LISP-USER", 2);})
+  // return sc.autodoc("(+ 1 2)", "COMMON-LISP-USER", 2);})
+  return sc.autocomplete("loa", "COMMON-LISP-USER");})
 .then(function(result) {
   console.log("Got response: " + result);});
 

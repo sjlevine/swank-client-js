@@ -1,0 +1,23 @@
+Read: (:EMACS-REX (SWANK:SIMPLE-COMPLETIONS "lo" '"COMMON-LISP-USER") "COMMON-LISP-USER" T 7)
+Write: (:RETURN
+ (:OK
+  (("load" "load-1-foreign" "load-foreign" "load-logical-pathname-translations"
+    "load-mtk" "load-shared-object" "load-time-value" "locally" "lock-package"
+    "log" "logand" "logandc1" "logandc2" "logbitp" "logcount" "logeqv"
+    "logical-pathname" "logical-pathname-translations" "logior" "lognand"
+    "lognor" "lognot" "logorc1" "logorc2" "logtest" "logxor" "long"
+    "long-float" "long-float-epsilon" "long-float-negative-epsilon"
+    "long-float-negative-infinity" "long-float-positive-infinity" "long-long"
+    "long-site-name" "loop" "loop-finish" "lower-case-p")
+   "lo"))
+ 7)
+Read: (:EMACS-REX (SWANK:DOCUMENTATION-SYMBOL "load-mtk") "COMMON-LISP-USER"
+ :REPL-THREAD 8)
+Write: (:RETURN
+ (:OK "Documentation for the symbol LOAD-MTK:
+
+Function:
+ Arglist: (&OPTIONAL (WS primary))
+
+ Load the mars toolkit and set the active workspace to be WS.")
+ 8)
