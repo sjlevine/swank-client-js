@@ -1,0 +1,21 @@
+Read: (:EMACS-REX (SWANK:FIND-DEFINITIONS-FOR-EMACS "pike-call-hooks") "#:pike" T 39)
+Write: (:RETURN
+ (:OK
+  (("(DEFGENERIC PIKE-CALL-HOOKS
+    (PS HOOK-NAME &REST ARGS))"
+    (:ERROR
+     "Error: DEFINITION-SOURCE of generic-function PIKE-CALL-HOOKS did not contain meaningful information."))
+   ("(DEFMETHOD PIKE-CALL-HOOKS PIKE-SESSION SYMBOL)"
+    (:LOCATION
+     (:FILE "/home/steve/mtk/workspaces/primary/pike/src/pike-hooks.lisp")
+     (:POSITION 2097)
+     (:SNIPPET
+      "(defmethod pike-call-hooks ((ps pike-session) (hook-name symbol) &rest args)
+  \"Call all of the callbacks listed.\"
+  (dolist (hook (gethash hook-name (pike-hooks-table ps)))
+    (apply hook args)))
+
+
+(defmethod pike-init-hooks ((ps pike-session))
+  \"Sets u")))))
+ 39)
