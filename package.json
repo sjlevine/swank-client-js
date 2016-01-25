@@ -1,6 +1,6 @@
 {
   "name": "swank-client-js",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "A Javascript client for interacting with a Lisp swank server",
   "main": "lib/client.js",
   "scripts": {
