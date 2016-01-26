@@ -11,7 +11,7 @@
     "url": "https://github.com/sjlevine/swank-client-js"
   },
   "dependencies": {
-    "paredit.js": "^0.2.11",
+    "paredit.js": "^0.2.13",
     "phpjs": "^1.3.2"
   },
   "keywords": [
