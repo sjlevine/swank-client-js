@@ -1,0 +1,207 @@
+Inspecting (list (list 1 2 3) "hi") a few times:
+========================================
+
+Read: (:EMACS-REX
+ (SWANK-REPL:LISTENER-EVAL "(list (list 1 2 3) \"hi\")
+")
+ "COMMON-LISP-USER" :REPL-THREAD 76)
+Write: (:PRESENTATION-START 8 :REPL-RESULT)
+Write: (:WRITE-STRING "((1 2 3) \"hi\")" :REPL-RESULT)
+Write: (:PRESENTATION-END 8 :REPL-RESULT)
+Write: (:WRITE-STRING "
+"
+ :REPL-RESULT)
+Write: (:RETURN (:OK NIL) 76)
+Read: (:EMACS-REX (SWANK::MENU-CHOICES-FOR-PRESENTATION-ID '8) "COMMON-LISP-USER"
+ :REPL-THREAD 77)
+Write: (:RETURN (:OK NIL) 77)
+Read: (:EMACS-REX (SWANK:INSPECT-PRESENTATION '8 T) "COMMON-LISP-USER" :REPL-THREAD
+ 78)
+Write: (:RETURN
+ (:OK
+  (:TITLE "#<CONS {1003C2E6B7}>" :ID 0 :CONTENT
+   (("A proper list:" "
+"
+     "0" ": " (:VALUE "(1 2 3)" 1) "
+"
+     "1" ": " (:VALUE "\"hi\"" 2) "
+")
+    10 0 500)))
+ 78)
+Read: (:EMACS-REX (SWANK:INSPECT-NTH-PART 1) "COMMON-LISP-USER" T 79)
+Write: (:RETURN
+ (:OK
+  (:TITLE "#<CONS {1003C2E667}>" :ID 0 :CONTENT
+   (("A proper list:" "
+"
+     "0" ": " (:VALUE "1" 1) "
+"
+     "1" ": " (:VALUE "2" 2) "
+"
+     "2" ": " (:VALUE "3" 3) "
+")
+    14 0 500)))
+ 79)
+Read: (:EMACS-REX (SWANK:INSPECT-NTH-PART 2) "COMMON-LISP-USER" T 80)
+Write: (:RETURN
+ (:OK
+  (:TITLE "#<(INTEGER 0 4611686018427387903) {4}>" :ID 0 :CONTENT
+   (("Value: 2 = #x00000002 = #o2 = #b10 = 2.e+0" "
+"
+     "Code-char" ": " (:VALUE "#\\Stx" 1) "
+"
+     "Integer-length" ": " (:VALUE "@2=2" 2) "
+"
+     "Universal-time" ": " (:VALUE "\"1899-12-31T19:00:02-05:00\"" 3) "
+")
+    14 0 500)))
+ 80)
+
+
+
+
+
+
+
+Inspecting an object:
+===========================
+Read: (:EMACS-REX
+ (SWANK-REPL:LISTENER-EVAL "p
+")
+ "COMMON-LISP-USER" :REPL-THREAD 150)
+Write: (:PRESENTATION-START 10 :REPL-RESULT)
+Write: (:WRITE-STRING "#<POTATO {1004600973}>" :REPL-RESULT)
+Write: (:PRESENTATION-END 10 :REPL-RESULT)
+Write: (:WRITE-STRING "
+"
+ :REPL-RESULT)
+Write: (:RETURN (:OK NIL) 150)
+Read: (:EMACS-REX (SWANK::MENU-CHOICES-FOR-PRESENTATION-ID '10) "COMMON-LISP-USER"
+ :REPL-THREAD 151)
+Write: (:RETURN (:OK NIL) 151)
+Read: (:EMACS-REX (SWANK:INSPECT-PRESENTATION '10 T) "COMMON-LISP-USER" :REPL-THREAD
+ 152)
+Write: (:RETURN
+ (:OK
+  (:TITLE "#<POTATO {1004600973}>" :ID 0 :CONTENT
+   (("Class: " (:VALUE "#<STANDARD-CLASS POTATO>" 1) "
+"
+     "--------------------" "
+"
+     " Group slots by inheritance " (:ACTION "[ ]" 0) "
+"
+     " Sort slots alphabetically  " (:ACTION "[X]" 1) "
+"
+     "
+"
+     "All Slots:" "
+"
+     (:ACTION "[ ]" 2) "  " (:VALUE "M" 2) "" " = " (:VALUE "(1 2 3)" 3) "
+"
+     (:ACTION "[ ]" 3) "  " (:VALUE "N" 4) "" " = " (:VALUE "0" 5) "
+"
+     "
+"
+     (:ACTION "[set value]" 4) "  " (:ACTION "[make unbound]" 5) "
+")
+    33 0 500)))
+ 152)
+Read: (:EMACS-REX (SWANK:INSPECT-NTH-PART 3) "COMMON-LISP-USER" T 153)
+Write: (:RETURN
+ (:OK
+  (:TITLE "#<CONS {10046009B7}>" :ID 0 :CONTENT
+   (("A proper list:" "
+"
+     "0" ": " (:VALUE "1" 1) "
+"
+     "1" ": " (:VALUE "2" 2) "
+"
+     "2" ": " (:VALUE "3" 3) "
+")
+    14 0 500)))
+ 153)
+Read: (:EMACS-REX (SWANK:INSPECT-NTH-PART 2) "COMMON-LISP-USER" T 154)
+Write: (:RETURN
+ (:OK
+  (:TITLE "#<(INTEGER 0 4611686018427387903) {4}>" :ID 0 :CONTENT
+   (("Value: 2 = #x00000002 = #o2 = #b10 = 2.e+0" "
+"
+     "Code-char" ": " (:VALUE "#\\Stx" 1) "
+"
+     "Integer-length" ": " (:VALUE "@2=2" 2) "
+"
+     "Universal-time" ": " (:VALUE "\"1899-12-31T19:00:02-05:00\"" 3) "
+")
+    14 0 500)))
+ 154)
+
+
+
+ Read: (:EMACS-REX (SWANK:INSPECTOR-POP) "COMMON-LISP-USER" T 155)
+Write: (:RETURN
+ (:OK
+  (:TITLE "#<CONS {10046009B7}>" :ID 4 :CONTENT
+   (("A proper list:" "
+"
+     "0" ": " (:VALUE "1" 5) "
+"
+     "1" ": " (:VALUE "@2=2" 6) "
+"
+     "2" ": " (:VALUE "3" 7) "
+")
+    14 0 500)))
+ 155)
+Read: (:EMACS-REX (SWANK:INSPECTOR-POP) "COMMON-LISP-USER" T 156)
+Write: (:RETURN
+ (:OK
+  (:TITLE "#<POTATO {1004600973}>" :ID 6 :CONTENT
+   (("Class: " (:VALUE "#<STANDARD-CLASS POTATO>" 7) "
+"
+     "--------------------" "
+"
+     " Group slots by inheritance " (:ACTION "[ ]" 6) "
+"
+     " Sort slots alphabetically  " (:ACTION "[X]" 7) "
+"
+     "
+"
+     "All Slots:" "
+"
+     (:ACTION "[ ]" 8) "  " (:VALUE "M" 8) "" " = " (:VALUE "@1=(1 2 3)" 9) "
+"
+     (:ACTION "[ ]" 9) "  " (:VALUE "N" 10) "" " = " (:VALUE "0" 11) "
+"
+     "
+"
+     (:ACTION "[set value]" 10) "  " (:ACTION "[make unbound]" 11) "
+")
+    33 0 500)))
+ 156)
+
+
+ Read: (:EMACS-REX (SWANK:INSPECTOR-CALL-NTH-ACTION 6) "COMMON-LISP-USER" T 157)
+ Write: (:RETURN
+  (:OK
+   (:TITLE "#<POTATO {1004600973}>" :ID 12 :CONTENT
+    (("Class: " (:VALUE "#<STANDARD-CLASS POTATO>" 13) "
+ "
+      "--------------------" "
+ "
+      " Group slots by inheritance " (:ACTION "[X]" 12) "
+ "
+      " Sort slots alphabetically  " (:ACTION "[X]" 13) "
+ "
+      "
+ "
+      "POTATO:" "
+ "
+      (:ACTION "[ ]" 14) "  " (:VALUE "M" 14) "" " = " (:VALUE "@1=(1 2 3)" 15) "
+ "
+      (:ACTION "[ ]" 15) "  " (:VALUE "N" 16) "" " = " (:VALUE "0" 17) "
+ "
+      "
+ "
+      (:ACTION "[set value]" 16) "  " (:ACTION "[make unbound]" 17) "
+ ")
+     33 0 500)))
+  157)
